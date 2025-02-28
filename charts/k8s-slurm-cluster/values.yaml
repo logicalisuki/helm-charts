@@ -292,7 +292,7 @@ slurmdbd:
     enabled: true
    # annotations:
    #   metallb.universe.tf/address-pool: slurm-ch-basel-1-pool
-  image: ubiquitycluster/slurm-base:latest
+  image: ubiquitycluster/slurm-database:latest
   imagePullPolicy: 'Always'
   # Extra volume mounts
   volumeMounts: []
