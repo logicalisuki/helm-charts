@@ -1,3 +1,5 @@
 ## How to build
 
-(add information on how to build and release a chart)
+1. Create a PR with the required changes in it.
+2. In that PR make sure you have adjusted Chart.yaml with the new version.
+3. Then merge the PR.  
