@@ -5,3 +5,4 @@ metadata:
 data:
   slurmdbd.conf: |
     {{- .Files.Get "files/slurmdbd.conf" | nindent 4 -}}
+    StoragePass={{ .Values.dbPass }}
