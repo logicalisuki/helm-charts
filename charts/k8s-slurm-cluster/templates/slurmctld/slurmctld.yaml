@@ -75,6 +75,8 @@ spec:
             - containerPort: 22347
           {{- if eq .Values.network.rdma "true" }}
           resources:
+            securityContext:
+              fsGroup: 999
             requests:
 {{ toYaml .Values.slurmctld.resources.requests | indent 14 }}
               rdma/rdma_shared_device_a: 1
@@ -87,6 +89,8 @@ spec:
               - IPC_LOCK
           {{- else }}
           resources:
+            securityContext:
+              fsGroup: 999
 {{ toYaml .Values.slurmctld.resources | indent 12 }}
           {{- end }}
           volumeMounts:
