@@ -82,6 +82,7 @@ spec:
 {{ toYaml .Values.slurmctld.resources.limits | indent 14 }}
               rdma/rdma_shared_device_a: 1
           securityContext:
+            fsGroup: 999
             capabilities:
               add:
               - IPC_LOCK
