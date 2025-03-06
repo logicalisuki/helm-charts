@@ -14,6 +14,9 @@ spec:
     - name: slurmdbd
       port: 6819
       targetPort: 6819
+    - name: slurmrestd
+      port: 6820
+      targetPort: 6820
     - name: slurm-ssh
       protocol: TCP
       port: 22
