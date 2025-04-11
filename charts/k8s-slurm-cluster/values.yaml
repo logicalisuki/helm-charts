@@ -33,7 +33,7 @@ login:
   service:
     enabled: true
     annotations:
-      metallb.universe.tf/allow-shared-ip: "slurm-shared-ip""
+      metallb.universe.tf/allow-shared-ip: "slurm-shared-ip"
   image: ubiquitycluster/slurm-login:latest
   imagePullPolicy: 'Always'
   # Extra volume mounts
