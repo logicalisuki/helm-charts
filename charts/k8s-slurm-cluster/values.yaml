@@ -32,8 +32,8 @@ login:
   replicas: 1
   service:
     enabled: true
-   # annotations:
-   #   metallb.universe.tf/address-pool: slurm-ch-basel-1-pool
+    annotations:
+      metallb.universe.tf/allow-shared-ip: "slurm-shared-ip""
   image: ubiquitycluster/slurm-login:latest
   imagePullPolicy: 'Always'
   # Extra volume mounts
