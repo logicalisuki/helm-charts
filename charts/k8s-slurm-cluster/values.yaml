@@ -168,10 +168,10 @@ auth:
       pkinit_anchors: "FILE:/etc/pki/tls/certs/ca-bundle.crt"
       default_ccache_name: "KEYRING:persistent:%{uid}"
     realms:
-      TEST:ADCEH.CEH.AC.UK: ADCEH.CEH.AC.UK
+      
     domain_realm:
-      adceh.ceh.ac.uk: ADCEH.CEH.AC.UK
-      .adceh.ceh.ac.uk: ADCEH.CEH.AC.UK
+      
+      
   image:
     repository: opensciencegrid/sssd
     tag: 3.6-release
