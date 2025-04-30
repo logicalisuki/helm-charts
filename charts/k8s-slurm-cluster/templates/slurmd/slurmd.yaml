@@ -45,23 +45,6 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.slurmd.terminationGracePeriod }}
       initContainers:
-      {{- if eq .Values.auth.krb5.enabled "true" }}
-      - name: ad-join-init-container
-        image: ubiquitycluster/slurm-adcli:latest
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          echo "Reading SSSD credentials from secret..."
-          domain=$(cat /etc/sssd-creds/domain)
-          username=$(cat /etc/sssd-creds/username)
-          password=$(cat /etc/sssd-creds/password)
-          echo $password | adcli join --domain=$domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
-        volumeMounts:
-        - name: keytab-volume
-          mountPath: /keytab
-        - name: sssd-creds
-          mountPath: /etc/sssd-creds
-      {{- end }}
       - name: increase-vm-max-map
         image: busybox
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
@@ -122,7 +105,7 @@ spec:
               subPath: sssd.conf
             - name: {{ .Values.configmaps.slurmProlog }}
               mountPath: /etc/slurm/prolog.d
-            - name: {{ .Values.configmaps.slurmEpilog }} 
+            - name: {{ .Values.configmaps.slurmEpilog }}
               mountPath: /etc/slurm/epilog.d
             - name: {{ .Values.configmaps.slurmMailProg }}
               mountPath: {{ .Values.slurmctld.config.slurm.MailProg.location }}
@@ -142,11 +125,6 @@ spec:
             - name: munge-key-secret
               mountPath: /tmp/munge.key
               subPath: munge.key
-            {{- if eq .Values.auth.krb5.enabled "true" }}
-            - name: keytab-volume
-              mountPath: /etc/krb5.keytab
-              subPath: keytab
-            {{- end }}
             {{- if .Values.slurmd.volumeMounts }}
 {{ toYaml .Values.slurmd.volumeMounts | indent 12 }}
         {{- end }}
@@ -156,11 +134,6 @@ spec:
           - slurmd.hpc-ubiq.svc.cluster.local
       restartPolicy: Always
       volumes:
-        {{- if eq .Values.auth.krb5.enabled "true" }}
-        - name: sssd-creds
-          secret:
-            secretName: sssd-creds
-        {{- end }}
         - name: sys-fs-cgroup
           hostPath:
             path: /sys/fs/cgroup
@@ -192,8 +165,6 @@ spec:
         - name: slurm-config-volume
           configMap:
             name: {{ .Values.configmaps.slurmConf }}
-        - name: keytab-volume
-          emptydir: {}
         - name: munge-key-secret
           secret:
             secretName: {{ .Values.secrets.mungeKey }}
@@ -201,3 +172,4 @@ spec:
         {{- if .Values.slurmd.volumes }}
 {{ toYaml .Values.slurmd.volumes | indent 8 }}
         {{- end }}
+

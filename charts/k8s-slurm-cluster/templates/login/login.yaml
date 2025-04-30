@@ -25,7 +25,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: {{ . }}
         {{- end }}
       {{- end }}
-      {{- end }}      
+      {{- end }}
       labels:
         app.kubernetes.io/name: slurm
         app.kubernetes.io/component: login
@@ -50,17 +50,18 @@ spec:
         args:
         - |
           echo "Reading SSSD credentials from secret..."
-          domain=$(cat /etc/sssd-creds/domain)
-          username=$(cat /etc/sssd-creds/username)
-          password=$(cat /etc/sssd-creds/password)
-          echo $password
-          echo $password | adcli join --domain=$domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
+          domain="{{ .Values.auth.krb5.creds.domain }}"
+          username="{{ .Values.auth.krb5.creds.username }}"
+          password="{{ .Values.auth.krb5.creds.password }}"
+          echo $username
+          echo $password 
+          echo $password | adcli -v join --domain-ou=OU=HPC_Devices,OU=Servers,DC=campus,DC=unn,DC=ac,DC=uk $domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
         volumeMounts:
         - name: keytab-volume
           mountPath: /keytab
         - name: sssd-creds
           mountPath: /etc/sssd-creds
-      {{- end }} 
+      {{- end }}
       - name: init-sssd-dir
         image: busybox
         command: ["/bin/sh", "-c"]
@@ -200,3 +201,4 @@ spec:
 {{ toYaml .Values.login.volumes | indent 8 }}
         {{- end }}
 {{- end }}
+
