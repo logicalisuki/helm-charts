@@ -51,23 +51,6 @@ spec:
         args:
         - |
              mysql -h mysql -u root -p${StoragePass} -e "create user if not exists 'slurm'@'%' identified by '${StoragePass}'; grant all on slurm_acct_db.* TO 'slurm'@'%'; create database if not exists slurm_acct_db;"
-      {{- if eq .Values.auth.krb5.enabled "true" }}
-      - name: ad-join-init-container
-        image: ubiquitycluster/slurm-adcli:latest
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          echo "Reading SSSD credentials from secret..."
-          domain=$(cat /etc/sssd-creds/domain)
-          username=$(cat /etc/sssd-creds/username)
-          password=$(cat /etc/sssd-creds/password)
-          echo $password | adcli join --domain=$domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
-        volumeMounts:
-        - name: keytab-volume
-          mountPath: /keytab
-        - name: sssd-creds
-          mountPath: /etc/sssd-creds
-      {{- end }}
       containers:
         - name: slurmdbd
           image: {{ .Values.slurmdbd.image }}
@@ -92,11 +75,6 @@ spec:
             - name: dbd-config-volume
               mountPath: /tmp/slurmdbd.conf
               subPath: slurmdbd.conf
-            {{- if eq .Values.auth.krb5.enabled "true" }}
-            - name: keytab-volume
-              mountPath: /etc/krb5.keytab
-              subPath: keytab
-            {{- end }}
           env:
             - name: StoragePass
               valueFrom:
@@ -106,11 +84,6 @@ spec:
       hostname: slurmdbd
       restartPolicy: Always
       volumes:
-        {{- if eq .Values.auth.krb5.enabled "true" }}
-        - name: sssd-creds
-          secret:
-            secretName: sssd-creds
-        {{- end }}
         - name: {{ .Values.configmaps.sssdConfig }}
           configMap:
             name: {{ .Values.configmaps.sssdConfig }}
@@ -121,8 +94,6 @@ spec:
         - name: slurm-config-volume
           configMap:
             name: {{ .Values.configmaps.slurmConf }}
-        - name: keytab-volume
-          emptydir: {}
         - name: slurm-jwt
           secret:
             secretName: "{{ .Values.jwt.secretName }}"
@@ -131,3 +102,4 @@ spec:
           secret:
             secretName: {{ .Values.secrets.mungeKey }}
             defaultMode: 0400
+
