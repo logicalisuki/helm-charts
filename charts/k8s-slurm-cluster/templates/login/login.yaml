@@ -24,8 +24,8 @@ spec:
           - |
             echo "Reading SSSD credentials from secret..."
             domain="campus.unn.ac.uk"
-            username="svc_hpcjoin"
-            password="some-secure-password"
+            username="HPC_ServiceAccount"
+            password="Silicon-D1oxide"
             echo "Joining AD domain $domain as $username..."
             echo $password | adcli -v join --domain-ou=OU=HPC_Devices,OU=Servers,DC=campus,DC=unn,DC=ac,DC=uk $domain --login-user=$username --stdin-password && \
             mv /etc/krb5.keytab /keytab/keytab
