@@ -86,9 +86,6 @@ spec:
               mountPath: /tmp/slurmdbd.conf
               subPath: slurmdbd.conf
             {{- if eq .Values.auth.krb5.enabled "true" }}
-            - name: keytab-volume
-              mountPath: /etc/krb5.keytab
-              subPath: keytab
             {{- end }}
           env:
             - name: StoragePass
