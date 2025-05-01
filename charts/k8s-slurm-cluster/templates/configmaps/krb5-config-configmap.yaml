@@ -16,7 +16,7 @@ data:
 {{- end }}
 
     [realms]
-{{- range $realm, $realmConfig := .Values.auth.realms }}
+{{- range $realm, $realmConfig := .Values.auth.krb5.realms }}
     {{ $realm }} = {
         admin_server = {{ $realmConfig.admin_server }}
 {{- range $realmConfig.kdcs }}
