@@ -29,3 +29,5 @@ data:
     {{- range $name, $domain := .Values.auth.krb5.domain_realm }}
     {{ $name }} = {{ $domain }}
     {{- end }}
+{{- end }}
+
