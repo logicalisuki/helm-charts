@@ -7,27 +7,26 @@ data:
   krb5.conf: |+
     [logging]
     {{- range $key, $value := .Values.auth.krb5.logging }}
-    {{ $key }} = {{ $value }}
+    {{ printf "    %s = %s" $key $value }}
     {{- end }}
 
     [libdefaults]
     {{- range $key, $value := .Values.auth.krb5.libdefaults }}
-    {{ $key }} = {{ $value }}
+    {{ printf "    %s = %s" $key $value }}
     {{- end }}
 
     [realms]
     {{- range $realm, $realmConfig := .Values.auth.realms }}
-    {{ $realm }} = {
-      admin_server = {{ $realmConfig.admin_server }}
+    {{ printf "    %s = {" $realm }}
+    {{ printf "      admin_server = %s" $realmConfig.admin_server }}
     {{- range $realmConfig.kdcs }}
-      kdc = {{ . }}
+    {{ printf "      kdc = %s" . }}
     {{- end }}
-    }
+    {{ printf "    }" }}
     {{- end }}
 
     [domain_realm]
     {{- range $name, $domain := .Values.auth.krb5.domain_realm }}
-    {{ $name }} = {{ $domain }}
+    {{ printf "    %s = %s" $name $domain }}
     {{- end }}
 {{- end }}
-
