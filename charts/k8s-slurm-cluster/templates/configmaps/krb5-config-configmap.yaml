@@ -6,27 +6,27 @@ metadata:
 data:
   krb5.conf: |+
     [logging]
-    {{- range $key, $value := .Values.auth.krb5.logging }}
-    {{ printf "    %s = %s" $key $value }}
-    {{- end }}
+{{- range $key, $value := .Values.auth.krb5.logging }}
+    {{ $key }} = {{ $value }}
+{{- end }}
 
     [libdefaults]
-    {{- range $key, $value := .Values.auth.krb5.libdefaults }}
-    {{ printf "    %s = %s" $key $value }}
-    {{- end }}
+{{- range $key, $value := .Values.auth.krb5.libdefaults }}
+    {{ $key }} = {{ $value }}
+{{- end }}
 
     [realms]
-    {{- range $realm, $realmConfig := .Values.auth.realms }}
-    {{ printf "    %s = {" $realm }}
-    {{ printf "      admin_server = %s" $realmConfig.admin_server }}
-    {{- range $realmConfig.kdcs }}
-    {{ printf "      kdc = %s" . }}
-    {{- end }}
-    {{ printf "    }" }}
-    {{- end }}
+{{- range $realm, $realmConfig := .Values.auth.realms }}
+    {{ $realm }} = {
+        admin_server = {{ $realmConfig.admin_server }}
+{{- range $realmConfig.kdcs }}
+        kdc = {{ . }}
+{{- end }}
+    }
+{{- end }}
 
     [domain_realm]
-    {{- range $name, $domain := .Values.auth.krb5.domain_realm }}
-    {{ printf "    %s = %s" $name $domain }}
-    {{- end }}
+{{- range $name, $domain := .Values.auth.krb5.domain_realm }}
+    {{ $name }} = {{ $domain }}
+{{- end }}
 {{- end }}
