@@ -1,0 +1,8 @@
+{{- range $realm, $realmConfig := .Values.auth.realms }}
+{{ $realm }} = {
+  admin_server = {{ $realmConfig.admin_server }}
+{{- range $realmConfig.kdcs }}
+  kdc = {{ . }}
+{{- end }}
+}
+{{- end }}

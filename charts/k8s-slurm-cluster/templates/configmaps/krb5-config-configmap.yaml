@@ -16,14 +16,10 @@ data:
 {{- end }}
 
     [realms]
-{{- range $realm, $realmConfig := .Values.auth.realms }}
-    {{ $realm }} = {
-        admin_server = {{ $realmConfig.admin_server }}
-{{- range $realmConfig.kdcs }}
-        kdc = {{ . }}
-{{- end }}
+    CAMPUS.UNN.AC.UK = {
+        admin_server = {{ .Values.auth.krb5.realms.CAMPUS_UNN_AC_UK.admin_server }}
+        kdc = {{ index .Values.auth.krb5.realms.CAMPUS_UNN_AC_UK.kdcs 0 }}
     }
-{{- end }}
 
     [domain_realm]
 {{- range $name, $domain := .Values.auth.krb5.domain_realm }}
