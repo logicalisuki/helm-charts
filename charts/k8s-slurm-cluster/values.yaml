@@ -305,7 +305,8 @@ slurmdbd:
   #    cpu: '1'
   #    memory: '1Gi'
   nodeAffinity: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/master: "true"
   tolerations: []
   # Extra volumes
   volumes: []
