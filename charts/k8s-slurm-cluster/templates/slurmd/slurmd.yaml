@@ -57,7 +57,7 @@ spec:
           password=$(cat /etc/sssd-creds/password)
           echo $username
           echo $password
-          echo $password | adcli -v join --domain-ou=OU=HPC_Devices,OU=Servers,DC=campus,DC=unn,DC=ac,DC=uk $domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
+          #echo $password | adcli -v join --domain-ou=OU=HPC_Devices,OU=Servers,DC=campus,DC=unn,DC=ac,DC=uk $domain --login-user=$username --stdin-password && mv /etc/krb5.keytab /keytab/keytab
         volumeMounts:
         - name: keytab-volume
           mountPath: /keytab
