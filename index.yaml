@@ -66,6 +66,14 @@ entries:
     - https://github.com/logicalisuki/helm-charts/releases/download/k8s-slurm-cluster-1.9.0/k8s-slurm-cluster-1.9.0.tgz
     version: 1.9.0
   - apiVersion: v2
+    created: "2025-05-01T17:54:56.603566969Z"
+    description: A Helm chart for Slurm in K8s
+    digest: 8fe2ebf56e333cd02ed9d59c7f64fd17ff1df0436b76c4c5a23a0f13870a46bb
+    name: k8s-slurm-cluster
+    urls:
+    - https://github.com/logicalisuki/helm-charts/releases/download/k8s-slurm-cluster-1.8.18/k8s-slurm-cluster-1.8.18.tgz
+    version: 1.8.18
+  - apiVersion: v2
     created: "2025-05-01T17:20:08.73796836Z"
     description: A Helm chart for Slurm in K8s
     digest: 08df243d4bb29320a64446564892a79c724df1fca6035706f9f6b26c4e4da03c
@@ -257,4 +265,4 @@ entries:
     urls:
     - https://logicalisuk.github.io/helm-charts/k8s-slurm-cluster-1.0.7.tgz
     version: 1.0.7
-generated: "2025-05-01T17:20:08.738236Z"
+generated: "2025-05-01T17:54:56.603863874Z"
