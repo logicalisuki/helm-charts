@@ -132,8 +132,6 @@ auth:
     debug_level: 0x1310
     pam_id_timeout: 600
   domains:
-    TEST:
-      ldap_tls_cacertdir: /etc/openldap/cacerts
 
 metrics:
   enabled: true
