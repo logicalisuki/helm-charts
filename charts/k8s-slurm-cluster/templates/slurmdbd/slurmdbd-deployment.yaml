@@ -58,9 +58,6 @@ spec:
         args:
         - |
           echo "Reading SSSD credentials from secret..."
-          domain=$(cat /etc/sssd-creds/domain)
-          username=$(cat /etc/sssd-creds/username)
-          password=$(cat /etc/sssd-creds/password)
           echo $username
           echo $password
       {{- end }}
