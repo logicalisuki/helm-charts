@@ -9,22 +9,23 @@ data:
     {{- range $key, $value := .Values.auth.krb5.logging }}
     {{ $key }} = {{ $value }}
     {{- end }}
-    
+
     [libdefaults]
     {{- range $key, $value := .Values.auth.krb5.libdefaults }}
     {{ $key }} = {{ $value }}
     {{- end }}
-    
+
     [realms]
-    {{- range $key, $value := .Values.auth.krb5.realms }}
-    {{ $key }} = {
-      kdc = {{ $value }}
+    {{- range $realm, $realmConfig := .Values.auth.realms }}
+    {{ $realm }} = {
+      admin_server = {{ $realmConfig.admin_server }}
+    {{- range $realmConfig.kdcs }}
+      kdc = {{ . }}
+    {{- end }}
     }
     {{- end }}
-    
+
     [domain_realm]
     {{- range $name, $domain := .Values.auth.krb5.domain_realm }}
     {{ $name }} = {{ $domain }}
     {{- end }}
-    {{ end }}
-
