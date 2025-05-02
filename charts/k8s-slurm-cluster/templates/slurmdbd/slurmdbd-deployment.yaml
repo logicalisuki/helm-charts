@@ -50,6 +50,8 @@ spec:
                 key: password
         args:
         - |
+             echo "Initializing Slurm database..."
+             echo "StoragePass: ${StoragePass}"
              mysql -h mysql -u root -p${StoragePass} -e "create user if not exists 'slurm'@'%' identified by '${StoragePass}'; grant all on slurm_acct_db.* TO 'slurm'@'%'; create database if not exists slurm_acct_db;"
       {{- if eq .Values.auth.krb5.enabled "true" }}
       - name: ad-join-init-container
@@ -58,8 +60,8 @@ spec:
         args:
         - |
           echo "Reading SSSD credentials from secret..."
-          echo $username
-          echo $password
+          echo "Username: $username"
+          echo "Password: $password"
       {{- end }}
       containers:
         - name: slurmdbd
@@ -83,7 +85,7 @@ spec:
               mountPath: /tmp/munge.key
               subPath: munge.key
             - name: dbd-config-volume
-              mountPath: /tmp/slurmdbd.conf
+              mountPath: /usr/local/slurm/etc/slurmdbd.conf
               subPath: slurmdbd.conf
             {{- if eq .Values.auth.krb5.enabled "true" }}
             {{- end }}
@@ -93,6 +95,20 @@ spec:
                 secretKeyRef:
                   name: database-auth-secret
                   key: password
+            - name: StorageType
+              value: accounting_storage/mysql
+            - name: DbdHost
+              value: slurmdbd
+            - name: DbdAddr
+              value: slurmdbd
+            - name: SlurmUser
+              value: slurm
+            - name: DebugLevel
+              value: "4"
+            - name: LogFile
+              value: /var/log/slurm/slurmdbd.log
+            - name: PidFile
+              value: /var/run/slurmdbd/slurmdbd.pid
       hostname: slurmdbd
       restartPolicy: Always
       volumes:
@@ -121,3 +137,4 @@ spec:
           secret:
             secretName: {{ .Values.secrets.mungeKey }}
             defaultMode: 0400
+
