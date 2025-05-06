@@ -468,6 +468,7 @@ database:
 # Configmap resource names
 configmaps:
   slurmMailProg: slurm-mailprog-script
+  slurmdbdConf: slurmdbd-conf-configmap
   slurmEpilog: slurm-epilog-scripts
   slurmProlog: slurm-prolog-scripts
   slurmConf: slurm-conf-configmap
