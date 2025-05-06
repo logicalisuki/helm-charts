@@ -79,7 +79,8 @@ spec:
               mountPath: /etc/sssd/sssd.conf
               subPath: sssd.conf
             - name: slurm-jwt
-              mountPath: /secrets/slurm
+              mountPath: /var/spool/slurm/jwt_hs256.key
+              subPath: jwt_hs256.key
               readOnly: true
             - name: munge-key-secret
               mountPath: /tmp/munge.key
@@ -133,7 +134,7 @@ spec:
         - name: slurm-jwt
           secret:
             secretName: "{{ .Values.jwt.secretName }}"
-            defaultMode: 384
+            defaultMode: 0444
         - name: munge-key-secret
           secret:
             secretName: {{ .Values.secrets.mungeKey }}
