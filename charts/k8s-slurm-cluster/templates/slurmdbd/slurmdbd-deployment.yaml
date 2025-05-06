@@ -85,7 +85,7 @@ spec:
               mountPath: /tmp/munge.key
               subPath: munge.key
             - name: dbd-config-volume
-              mountPath: /usr/local/slurm/etc/slurmdbd.conf
+              mountPath: /tmp/slurmdbd.conf
               subPath: slurmdbd.conf
             {{- if eq .Values.auth.krb5.enabled "true" }}
             {{- end }}
