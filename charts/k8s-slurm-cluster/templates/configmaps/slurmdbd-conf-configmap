@@ -6,6 +6,7 @@ metadata:
 data:
   slurmdbd.conf: |
     AuthType=auth/jwt
+    AuthAltParameters=jwt_key=/var/spool/slurm/jwt_hs256.key
     DbdHost=slurmdbd
     DbdAddr=slurmdbd
     DebugLevel=4
