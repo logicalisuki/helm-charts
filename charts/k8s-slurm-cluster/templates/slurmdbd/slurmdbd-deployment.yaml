@@ -85,7 +85,7 @@ spec:
               mountPath: /tmp/munge.key
               subPath: munge.key
             - name: dbd-config-volume
-              mountPath: /tmp/slurmdbd.conf
+              mountPath: /usr/local/slurm/etc/slurmdbd.conf
               subPath: slurmdbd.conf
             {{- if eq .Values.auth.krb5.enabled "true" }}
             {{- end }}
@@ -124,6 +124,7 @@ spec:
         - name: dbd-config-volume
           configMap:
             name: {{ .Values.configmaps.slurmdbdConf }}
+            defaultMode: 0600
         - name: slurm-config-volume
           configMap:
             name: {{ .Values.configmaps.slurmConf }}
