@@ -139,7 +139,7 @@ spec:
               subPath: keytab
             {{- end }}
             - name: host-keys
-              mountPath: /tempmounts/etc/ssh
+              mountPath: /etc/ssh
             {{- if .Values.login.volumeMounts }}
 {{ toYaml .Values.login.volumeMounts | indent 12 }}
         {{- end }}
