@@ -67,7 +67,10 @@ spec:
         image: busybox
         command: ["/bin/sh", "-c"]
         args:
-        - mkdir -p /var/lib/sss/pipes/private;
+        - |
+          mkdir -p /var/lib/sss/db /var/lib/sss/mc /var/lib/sss/gpo_cache;
+          chmod 700 /var/lib/sss/db /var/lib/sss/mc /var/lib/sss/gpo_cache;
+          mkdir -p /var/lib/sss/pipes/private;
           chmod 1755 /var/lib/sss/pipes/private;
         volumeMounts:
         - mountPath: /var/lib/sss/pipes
