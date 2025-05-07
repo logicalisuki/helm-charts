@@ -138,8 +138,6 @@ spec:
               mountPath: /etc/krb5.keytab
               subPath: keytab
             {{- end }}
-            - name: host-keys
-              mountPath: /etc/ssh
             {{- if .Values.login.volumeMounts }}
 {{ toYaml .Values.login.volumeMounts | indent 12 }}
         {{- end }}
@@ -198,9 +196,6 @@ spec:
             defaultMode: 0600
         - name: keytab-volume
           emptydir: {}
-        - name: host-keys
-          secret:
-            secretName: host-keys-secret
         {{- if .Values.login.volumes }}
 {{ toYaml .Values.login.volumes | indent 8 }}
         {{- end }}
