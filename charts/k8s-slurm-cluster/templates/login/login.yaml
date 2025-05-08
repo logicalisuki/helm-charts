@@ -74,6 +74,9 @@ spec:
           chmod 700 /var/lib/sss/db /var/lib/sss/mc /var/lib/sss/gpo_cache;
           mkdir -p /var/lib/sss/pipes/private;
           chmod 1755 /var/lib/sss/pipes/private;
+        volumeMounts:
+          - name: ubiq-sssd
+            mountPath: /var/lib/sss
       containers:
         - name: login
           image: "{{ .Values.login.image }}"
