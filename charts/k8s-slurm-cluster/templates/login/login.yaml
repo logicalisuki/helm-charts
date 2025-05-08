@@ -62,6 +62,8 @@ spec:
           mountPath: /keytab
         - name: sssd-creds
           mountPath: /etc/sssd-creds
+        - name: ubiq-sssd
+          mountPath: /var/lib/sss
       {{- end }} 
       - name: init-sssd-dir
         image: busybox
@@ -72,9 +74,6 @@ spec:
           chmod 700 /var/lib/sss/db /var/lib/sss/mc /var/lib/sss/gpo_cache;
           mkdir -p /var/lib/sss/pipes/private;
           chmod 1755 /var/lib/sss/pipes/private;
-        volumeMounts:
-        - mountPath: /var/lib/sss/pipes
-          name: sssd-dir
       containers:
         - name: login
           image: "{{ .Values.login.image }}"
@@ -128,8 +127,6 @@ spec:
             - name:  {{ .Values.configmaps.sssdConfig }}
               mountPath: /etc/sssd/sssd.conf
               subPath: sssd.conf
-            - name: sssd-dir
-              mountPath: /var/lib/sss/pipes
             {{- if eq .Values.auth.krb5.enabled "true" }}
             - name:  {{ .Values.configmaps.krb5Config }}
               mountPath: /etc/krb5.conf
@@ -137,6 +134,8 @@ spec:
             - name: keytab-volume
               mountPath: /etc/krb5.keytab
               subPath: keytab
+            - name: ubiq-sssd
+              mountPath: /var/lib/sss
             {{- end }}
             {{- if .Values.login.volumeMounts }}
 {{ toYaml .Values.login.volumeMounts | indent 12 }}
@@ -160,13 +159,6 @@ spec:
           configMap:
             name: pam-config-configmap
         {{- end }}
-        - name: sssd-config
-          configMap:
-            name: sssd-config
-        - name: sssd-dir
-          hostPath:
-            path: /var/lib/ubiq-sssd
-            type: DirectoryOrCreate
         - name: slurm-jobdir
           persistentVolumeClaim:
             claimName: {{ .Values.storage.claimName }}
