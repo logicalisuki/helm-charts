@@ -25,7 +25,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: {{ . }}
         {{- end }}
       {{- end }}
-      {{- end }}      
+      {{- end }}
       labels:
         app.kubernetes.io/name: slurm
         app.kubernetes.io/component: login
@@ -64,7 +64,7 @@ spec:
           mountPath: /etc/sssd-creds
         - name: ubiq-sssd
           mountPath: /var/lib/sss
-      {{- end }} 
+      {{- end }}
       - name: init-sssd-dir
         image: busybox
         command: ["/bin/sh", "-c"]
@@ -122,12 +122,31 @@ spec:
               mountPath: /tmp/authorized_keys
               subPath: authorized_keys
             {{- if eq .Values.pam.enabled "true" }}
+            # PAM configuration files
             - name: pam-config-configmap
-              mountPath: /etc/pam.d/password-auth
-              subPath: password-auth
+              mountPath: /etc/pam.d/common-auth
+              subPath: common-auth
             - name: pam-config-configmap
-              mountPath: /etc/pam.d/system-auth
-              subPath: system-auth
+              mountPath: /etc/pam.d/common-password
+              subPath: common-password
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/common-session
+              subPath: common-session
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/common-account
+              subPath: common-account
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/login
+              subPath: login
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/runuser
+              subPath: runuser
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/su
+              subPath: su
+            - name: pam-config-configmap
+              mountPath: /etc/pam.d/sshd
+              subPath: sshd
             {{- end }}
             - name:  {{ .Values.configmaps.sssdConfig }}
               mountPath: /etc/sssd/sssd.conf
@@ -160,6 +179,7 @@ spec:
             name: {{ .Values.configmaps.krb5Config }}
         {{- end }}
         {{- if eq .Values.pam.enabled "true" }}
+        # PAM configuration volumes
         - name: pam-config-configmap
           configMap:
             name: pam-config-configmap

@@ -4,16 +4,53 @@ kind: ConfigMap
 metadata:
   name: pam-config-configmap
 data:
-{{- if .Values.pam.password_auth }}
-  password-auth: |+
-    {{- range $key, $value := .Values.pam.password_auth }}
-    {{ $value }}
+{{- if .Values.pam.common_auth }}
+  common-auth: |+
+    {{- range .Values.pam.common_auth }}
+    {{ . }}
     {{- end }}
 {{- end }}
-{{- if .Values.pam.system_auth }}    
-  system-auth: |+
-    {{- range $key, $value := .Values.pam.system_auth }}
-    {{ $value }}
+{{- if .Values.pam.common_password }}
+  common-password: |+
+    {{- range .Values.pam.common_password }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.common_session }}
+  common-session: |+
+    {{- range .Values.pam.common_session }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.common_account }}
+  common-account: |+
+    {{- range .Values.pam.common_account }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.runuser }}
+  runuser: |+
+    {{- range .Values.pam.runuser }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.login }}
+  login: |+
+    {{- range .Values.pam.login }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.su }}
+  su: |+
+    {{- range .Values.pam.su }}
+    {{ . }}
+    {{- end }}
+{{- end }}
+{{- if .Values.pam.sshd }}
+  sshd: |+
+    {{- range .Values.pam.sshd }}
+    {{ . }}
     {{- end }}
 {{- end }}
 {{- end }}
+
