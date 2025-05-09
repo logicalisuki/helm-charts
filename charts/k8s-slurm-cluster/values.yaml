@@ -96,43 +96,6 @@ login:
       scrapeTimeout: 10s
 
 pam:
-  enabled: "true"
-  password_auth:
-    auth_pamenv: "auth            required        pam_env.so"
-    auth_pamunix: "auth            sufficient      pam_unix.so try_first_pass likeauth nullok"
-    auth_pamsss: "auth            sufficient      pam_sss.so use_first_pass"
-    auth_pam_permit: "auth            optional        pam_permit.so"
-    account_pamunix: "account required        pam_unix.so"
-    account_defaults: "account [default=bad success=ok user_unknown=ignore]            pam_sss.so"
-    account_pampermit: "account optional        pam_permit.so"
-    password_cracklib: "password        required        pam_cracklib.so difok=2 minlen=8 dcredit=2 ocredit=2 retry=3"
-    password_pamunix: "password        sufficient      pam_unix.so try_first_pass use_authtok nullok sha512 shadow"
-    password_pamsss: "password        sufficient      pam_sss.so use_authtok"
-    password_pam-permit: "password        optional        pam_permit.so"
-    session_pamlimits: "session         required        pam_limits.so"
-    session_pamenv: "session         required        pam_env.so"
-    session_pamunix: "session         required        pam_unix.so"
-    session_pammkhomedir: "session         optional        pam_mkhomedir.so skel=/etc/skel/ umask=0077"
-    session_pamsss: "session         optional        pam_sss.so"
-    session_pam-permit: "session         optional        pam_permit.so"
-  system_auth:
-    auth_pamenv: "auth            required        pam_env.so"
-    auth_pamunix: "auth            sufficient      pam_unix.so try_first_pass likeauth nullok"
-    auth_pamsss: "auth            sufficient      pam_sss.so use_first_pass"
-    auth_pam_permit: "auth            optional        pam_permit.so"
-    account_pamunix: "account required        pam_unix.so"
-    account_defaults: "account [default=bad success=ok user_unknown=ignore]            pam_sss.so"
-    account_pampermit: "account optional        pam_permit.so"
-    password_cracklib: "password        required        pam_cracklib.so difok=2 minlen=8 dcredit=2 ocredit=2 retry=3"
-    password_pamunix: "password        sufficient      pam_unix.so try_first_pass use_authtok nullok sha512 shadow"
-    password_pamsss: "password        sufficient      pam_sss.so use_authtok"
-    password_pam_permit: "password        optional        pam_permit.so"
-    session_pamlimits: "session         required        pam_limits.so"
-    session_pamenv: "session         required        pam_env.so"
-    session_pamunix: "session         required        pam_unix.so"
-    session_pammkhomedir: "session         optional        pam_mkhomedir.so skel=/etc/skel/ umask=0077"
-    session_pamsss: "session         optional        pam_sss.so"
-    session_pam_permit: "session         optional        pam_permit.so"
 
 auth:
   ssh:
