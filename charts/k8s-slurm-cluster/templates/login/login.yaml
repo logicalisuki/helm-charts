@@ -158,8 +158,6 @@ spec:
             - name: keytab-volume
               mountPath: /etc/krb5.keytab
               subPath: keytab
-            - name: ubiq-sssd
-              mountPath: /var/lib/sss
             {{- end }}
             {{- if .Values.login.volumeMounts }}
 {{ toYaml .Values.login.volumeMounts | indent 12 }}
