@@ -40,19 +40,6 @@ login:
   volumes: []
   config:
     sshd:
-      UsePAM: "yes"
-      ChallengeResponseAuthentication: "yes"
-      PasswordAuthentication: "yes"
-      HostbasedAuthentication: "yes"
-      SyslogFacility: AUTHPRIV
-      AuthorizedKeysFile: .ssh/authorized_keys
-      IgnoreUserKnownHosts: "yes"
-      GSSAPIAuthentication: "yes"
-      GSSAPICleanupCredentials: "no"
-      X11Forwarding: "yes"
-      UsePrivilegeSeparation: sandbox
-      ClientAliveInterval: 300
-      UseDNS: "no"
     pam:
   metrics:
     enabled: true
