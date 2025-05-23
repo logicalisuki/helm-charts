@@ -15,5 +15,5 @@ data:
     StorageType=accounting_storage/mysql
     StorageHost=mysql
     StorageUser=slurm
-    StoragePass=your-hardcoded-slurm-password
+    StoragePass={{ .Values.dbPass | quote }}
     StorageLoc=slurm_acct_db
