@@ -1,13 +1,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.configmaps.slurmProlog }}
+  name: slurm-prolog-script
+  namespace: hpc-ubiq
 data:
-  Z99UbiqInit.sh: |+
+  export-user-identity.sh: |
     #!/bin/bash
-    # Z99UbiqInit.sh
-    #
-    # See the slurm man page re: Prolog for more information
-    #
+    ID_DIR="/mnt/identity-store"
 
-    # Make strings lower case for nice email formatting
+    UID=$(id -u "$SLURM_JOB_USER")
+    GID=$(id -g "$SLURM_JOB_USER")
+    HOME="/home/$SLURM_JOB_USER"
+
+    echo "$SLURM_JOB_USER:x:$UID:$GID:$SLURM_JOB_USER:$HOME:/bin/bash" > "$ID_DIR/${SLURM_JOB_ID}.passwd"
+    echo "users:x:$GID:" > "$ID_DIR/${SLURM_JOB_ID}.group"

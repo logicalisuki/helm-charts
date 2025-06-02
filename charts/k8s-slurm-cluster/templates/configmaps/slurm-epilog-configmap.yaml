@@ -3,11 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.configmaps.slurmEpilog }}
 data:
-  Z99UbiqFinish.sh: |+
+  UbiqFinish.sh: |
     #!/bin/bash
-    # Z99UbiqFinish.sh
-    #
-    # See the slurm man page re: Prolog for more information
-    #
+    ID_DIR="/mnt/identity-store"
+    rm -f "$ID_DIR/${SLURM_JOB_ID}.passwd" "$ID_DIR/${SLURM_JOB_ID}.group"
 
-    # Make strings lower case for nice email formatting
