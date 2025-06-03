@@ -6,11 +6,25 @@ metadata:
 data:
   export-user-identity.sh: |
     #!/bin/bash
+    set -euo pipefail
+
     ID_DIR="/mnt/identity-store"
+    JOB_ID="$SLURM_JOB_ID"
+    USER="$SLURM_JOB_USER"
+    UID=$(id -u "$USER")
+    GID=$(id -g "$USER")
+    HOME="/home/$USER"
 
-    UID=$(id -u "$SLURM_JOB_USER")
-    GID=$(id -g "$SLURM_JOB_USER")
-    HOME="/home/$SLURM_JOB_USER"
+    # Create fake passwd and group
+    PASSWD_FILE="$ID_DIR/${JOB_ID}.passwd"
+    GROUP_FILE="$ID_DIR/${JOB_ID}.group"
+    ENV_FILE="/tmp/env_$SLURM_JOB_ID.sh"
 
-    echo "$SLURM_JOB_USER:x:$UID:$GID:$SLURM_JOB_USER:$HOME:/bin/bash" > "$ID_DIR/${SLURM_JOB_ID}.passwd"
-    echo "users:x:$GID:" > "$ID_DIR/${SLURM_JOB_ID}.group"
+    echo "${USER}:x:${UID}:${GID}:${USER}:${HOME}:/bin/bash" > "$PASSWD_FILE"
+    echo "adgroup:x:${GID}:${USER}" > "$GROUP_FILE"
+
+    # Export libnss_wrapper vars into a shared env file
+    echo "export NSS_WRAPPER_PASSWD=$PASSWD_FILE" > "$ENV_FILE"
+    echo "export NSS_WRAPPER_GROUP=$GROUP_FILE" >> "$ENV_FILE"
+    echo "export LD_PRELOAD=/lib/x86_64-linux-gnu/libnss_wrapper.so" >> "$ENV_FILE"
+    chmod +x "$ENV_FILE"
