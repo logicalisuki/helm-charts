@@ -18,7 +18,7 @@ data:
     # Create fake passwd and group
     PASSWD_FILE="$ID_DIR/${JOB_ID}.passwd"
     GROUP_FILE="$ID_DIR/${JOB_ID}.group"
-    ENV_FILE="/tmp/env.sh"
+    ENV_FILE="/tmp/env_$SLURM_JOB_ID.sh"
 
     echo "${USER}:x:${UID}:${GID}:${USER}:${HOME}:/bin/bash" > "$PASSWD_FILE"
     echo "adgroup:x:${GID}:${USER}" > "$GROUP_FILE"
