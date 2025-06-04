@@ -6,16 +6,6 @@ metadata:
 data:
   export-user-identity.sh: |
     #!/bin/bash
-    set -euo pipefail
+    echo "this isnt being used at the moment"
 
-    echo "Slurm Prolog starting for job $SLURM_JOB_ID (user: $SLURM_JOB_USER)"
-
-    # Optional: verify identity resolution
-    if ! getent passwd "$SLURM_JOB_USER" >/dev/null; then
-        echo "ERROR: User $SLURM_JOB_USER not found in identity store"
-        exit 1
-    fi
-
-    echo "Slurm Prolog completed for job $SLURM_JOB_ID"
-    exit 0
 

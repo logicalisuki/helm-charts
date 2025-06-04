@@ -5,6 +5,5 @@ metadata:
 data:
   UbiqFinish.sh: |
     #!/bin/bash
-    ID_DIR="/mnt/identity-store"
-    rm -f "$ID_DIR/${SLURM_JOB_ID}.passwd" "$ID_DIR/${SLURM_JOB_ID}.group"
+    echo "this isnt being used anymore"
 
