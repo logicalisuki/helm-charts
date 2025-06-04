@@ -68,6 +68,10 @@ spec:
         - name: slurmctld
           image: {{ .Values.slurmctld.image }}
           imagePullPolicy: {{ .Values.slurmctld.imagePullPolicy }}
+          env:
+{{- with .Values.slurmctld.env }}
+{{ toYaml . | indent 12 }}
+{{- end }}
           ports:
             - containerPort: 22
             - containerPort: 6817

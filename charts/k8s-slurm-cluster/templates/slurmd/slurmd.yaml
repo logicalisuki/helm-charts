@@ -84,6 +84,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+{{- with .Values.slurmd.env }}
+{{ toYaml . | indent 12 }}
+{{- end }}
           ports:
             - containerPort: 6818
               hostPort: 6818
