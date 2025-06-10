@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: slurm
-    app.kubernetes.io/component: slurmd-gpu
-  name: {{ .Values.slurmd-gpu.name }}
+    app.kubernetes.io/component: slurmgpu
+  name: {{ .Values.slurmgpu.name }}
 spec:
-  replicas: {{ .Values.slurmd-gpu.replicas }}
+  replicas: {{ .Values.slurmgpu.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: slurm
-      app.kubernetes.io/component: slurmd-gpu
-  serviceName: slurmd-gpu
+      app.kubernetes.io/component: slurmgpu
+  serviceName: slurmgpu
   template:
     metadata:
       creationTimestamp: null
@@ -26,24 +26,24 @@ spec:
       {{- end }}
       labels:
         app.kubernetes.io/name: slurm
-        app.kubernetes.io/component: slurmd-gpu
-{{- if .Values.slurmd-gpu.labels }}
-{{ toYaml .Values.slurmd-gpu.labels | indent 8 }}
+        app.kubernetes.io/component: slurmgpu
+{{- if .Values.slurmgpu.labels }}
+{{ toYaml .Values.slurmgpu.labels | indent 8 }}
 {{- end }}
     spec:
-      {{- with .Values.slurmd-gpu.tolerations }}
+      {{- with .Values.slurmgpu.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.slurmd-gpu.nodeSelector }}
+      {{- with .Values.slurmgpu.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.slurmd-gpu.nodeAffinity }}
+      {{- with .Values.slurmgpu.nodeAffinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.slurmd-gpu.terminationGracePeriod }}
+      terminationGracePeriodSeconds: {{ .Values.slurmgpu.terminationGracePeriod }}
       initContainers:
       {{- if eq .Values.auth.krb5.enabled "true" }}
       - name: ad-join-init-container
@@ -76,15 +76,15 @@ spec:
         securityContext:
           privileged: true
       containers:
-        - name: slurmd-gpu
-          image: {{ .Values.slurmd-gpu.image }}
-          imagePullPolicy: {{ .Values.slurmd-gpu.imagePullPolicy }}
+        - name: slurmgpu
+          image: {{ .Values.slurmgpu.image }}
+          imagePullPolicy: {{ .Values.slurmgpu.imagePullPolicy }}
           env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-{{- with .Values.slurmd-gpu.env }}
+{{- with .Values.slurmgpu.env }}
 {{ toYaml . | indent 12 }}
 {{- end }}
           ports:
@@ -93,10 +93,10 @@ spec:
           {{- if eq .Values.network.rdma "true" }}
           resources:
             requests:
-{{ toYaml .Values.slurmd-gpu.resources.requests | indent 14 }}
+{{ toYaml .Values.slurmgpu.resources.requests | indent 14 }}
               rdma/rdma_shared_device_a: 1
             limits:
-{{ toYaml .Values.slurmd-gpu.resources.limits | indent 14 }}
+{{ toYaml .Values.slurmgpu.resources.limits | indent 14 }}
               rdma/rdma_shared_device_a: 1
           securityContext:
             capabilities:
@@ -105,7 +105,7 @@ spec:
               - SYS_ADMIN
           {{- else }}
           resources:
-{{ toYaml .Values.slurmd-gpu.resources | indent 12 }}
+{{ toYaml .Values.slurmgpu.resources | indent 12 }}
           securityContext:
             privileged: true
             capabilities:
@@ -143,13 +143,13 @@ spec:
               mountPath: /etc/krb5.keytab
               subPath: keytab
             {{- end }}
-            {{- if .Values.slurmd-gpu.volumeMounts }}
-{{ toYaml .Values.slurmd-gpu.volumeMounts | indent 12 }}
+            {{- if .Values.slurmgpu.volumeMounts }}
+{{ toYaml .Values.slurmgpu.volumeMounts | indent 12 }}
         {{- end }}
       dnsPolicy: ClusterFirstWithHostNet
       dnsConfig:
         searches:
-          - slurmd-gpu.hpc-ubiq.svc.cluster.local
+          - slurmgpu.hpc-ubiq.svc.cluster.local
       restartPolicy: Always
       volumes:
         {{- if eq .Values.auth.krb5.enabled "true" }}
@@ -194,6 +194,6 @@ spec:
           secret:
             secretName: {{ .Values.secrets.mungeKey }}
             defaultMode: 0400
-        {{- if .Values.slurmd-gpu.volumes }}
-{{ toYaml .Values.slurmd-gpu.volumes | indent 8 }}
+        {{- if .Values.slurmgpu.volumes }}
+{{ toYaml .Values.slurmgpu.volumes | indent 8 }}
         {{- end }}
